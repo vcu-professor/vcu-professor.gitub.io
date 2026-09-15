@@ -1,11 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="utf-8">
+  <!-- (1) THE VIEWPORT TAG — required for Bootstrap's responsive/mobile behavior to work -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap Demo — INFO 202</title>
+
+  <!-- (2) BOOTSTRAP CSS via CDN. This one <link> is what "installs" Bootstrap.
+       All the class names below (container, row, btn, card...) come from this file. -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons (optional, used for a few visuals) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <style>
+    /* Only used to style the "teaching callout" boxes and code chips — NOT Bootstrap. */
+    body { scroll-behavior: smooth; }
+    .demo-note {
+      border-left: 4px solid #0d6efd;
+      background: #f1f6ff;
+      padding: .75rem 1rem;
+      border-radius: .375rem;
+      font-size: .925rem;
+    }
+    code.chip { background:#eef; padding:.1rem .4rem; border-radius:.25rem; color:#0a3; }
+    section { scroll-margin-top: 80px; }
+    .section-num {
+      display:inline-block; width:2rem; height:2rem; line-height:2rem;
+      text-align:center; border-radius:50%; background:#0d6efd; color:#fff;
+      font-weight:700; margin-right:.5rem;
+    }
+  </style>
 </head>
 <body>
-    <h2>Hello, welcome to my repository!</h2>
+
+<!-- ============================================================= -->
+<!-- NAVBAR — a responsive navigation bar that collapses on mobile -->
+<!-- ============================================================= -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#top"><i class="bi bi-bootstrap-fill"></i> BS Demo</a>
+    <!-- The "hamburger" button: shows on small screens, toggles the menu below -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#grid">Grid</a></li>
+        <li class="nav-item"><a class="nav-link" href="#typography">Type</a></li>
+        <li class="nav-item"><a class="nav-link" href="#buttons">Buttons</a></li>
+        <li class="nav-item"><a class="nav-link" href="#components">Components</a></li>
+        <li class="nav-item"><a class="nav-link" href="#forms">Forms</a></li>
+        <li class="nav-item"><a class="nav-link" href="#utilities">Utilities</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTAINER = the centered, padded wrapper Bootstrap layouts live inside -->
+<div class="container my-5" id="top">
+
+  <!-- HERO / JUMBOTRON-STYLE HEADER built entirely from utility classes -->
+  <header class="p-5 mb-5 bg-primary text-white rounded-3 text-center">
+    <h1 class="display-4 fw-bold">Bootstrap in One Page</h1>
+    <p class="lead mb-0">The components that matter, live and annotated — INFO 202</p>
+  </header>
+
+  <div class="demo-note mb-5">
+    <strong>What is Bootstrap?</strong> A free CSS framework. Instead of writing your own CSS,
+    you add ready-made <em>class names</em> to your HTML. One <code class="chip">&lt;link&gt;</code>
+    tag (see the top of this file) gives you a grid, buttons, forms, and dozens of components that
+    already look good and are mobile-responsive.
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- 1. THE GRID SYSTEM                                             -->
+  <!-- ============================================================= -->
+  <section id="grid" class="mb-5">
+    <h2><span class="section-num">1</span>The Grid System</h2>
+    <p class="text-muted">
+      Bootstrap's layout is a <strong>12-column grid</strong>. You nest
+      <code class="chip">.row</code> inside <code class="chip">.container</code>,
+      then split each row into columns that add up to 12.
+    </p>
+
+    <!-- Equal columns -->
+    <p class="fw-semibold mb-1">Three equal columns (<code class="chip">.col</code>):</p>
+    <div class="row g-2 mb-3 text-center">
+      <div class="col"><div class="bg-info-subtle border rounded p-3">.col</div></div>
+      <div class="col"><div class="bg-info-subtle border rounded p-3">.col</div></div>
+      <div class="col"><div class="bg-info-subtle border rounded p-3">.col</div></div>
+    </div>
+
+    <!-- Explicit widths that sum to 12 -->
+    <p class="fw-semibold mb-1">Custom widths that add up to 12:</p>
+    <div class="row g-2 mb-3 text-center">
+      <div class="col-6"><div class="bg-warning-subtle border rounded p-3">col-6 (half)</div></div>
+      <div class="col-4"><div class="bg-warning-subtle border rounded p-3">col-4 (third)</div></div>
+      <div class="col-2"><div class="bg-warning-subtle border rounded p-3">col-2</div></div>
+    </div>
+
+    <!-- Responsive columns -->
+    <p class="fw-semibold mb-1">
+      Responsive: <code class="chip">col-12 col-md-4</code> = full width on phones, thirds on desktop.
+      <span class="text-primary">Resize your browser to watch it change!</span>
+    </p>
+    <div class="row g-2 text-center">
+      <div class="col-12 col-md-4"><div class="bg-success-subtle border rounded p-3">Column A</div></div>
+      <div class="col-12 col-md-4"><div class="bg-success-subtle border rounded p-3">Column B</div></div>
+      <div class="col-12 col-md-4"><div class="bg-success-subtle border rounded p-3">Column C</div></div>
+    </div>
+
+    <div class="demo-note mt-3">
+      <strong>Breakpoints</strong> are the heart of responsiveness:
+      <code class="chip">sm</code> ≥576px, <code class="chip">md</code> ≥768px,
+      <code class="chip">lg</code> ≥992px, <code class="chip">xl</code> ≥1200px.
+      <code class="chip">col-md-4</code> means "4 columns wide once the screen is medium or bigger."
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 2. TYPOGRAPHY                                                  -->
+  <!-- ============================================================= -->
+  <section id="typography" class="mb-5">
+    <h2><span class="section-num">2</span>Typography</h2>
+    <p class="text-muted">Bootstrap styles standard tags and adds helper classes.</p>
+    <div class="row">
+      <div class="col-md-6">
+        <h1>h1. Heading</h1>
+        <h3>h3. Heading</h3>
+        <p class="lead">A <code class="chip">.lead</code> paragraph stands out.</p>
+        <p>Regular paragraph with <strong>bold</strong>, <em>italic</em>, and
+          <a href="#">a link</a>.</p>
+        <p class="text-muted">Muted &bull;
+          <span class="text-success">success</span> &bull;
+          <span class="text-danger">danger</span></p>
+      </div>
+      <div class="col-md-6">
+        <p class="display-6">.display-6 (big & light)</p>
+        <blockquote class="blockquote">
+          <p>"Frameworks let you build fast."</p>
+          <footer class="blockquote-footer">A web dev</footer>
+        </blockquote>
+        <p class="text-center fst-italic">.text-center + .fst-italic</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 3. BUTTONS                                                     -->
+  <!-- ============================================================= -->
+  <section id="buttons" class="mb-5">
+    <h2><span class="section-num">3</span>Buttons</h2>
+    <p class="text-muted">Every button is <code class="chip">btn</code> + a color variant.</p>
+
+    <p class="fw-semibold mb-1">Solid variants:</p>
+    <div class="mb-3 d-flex flex-wrap gap-2">
+      <button class="btn btn-primary">Primary</button>
+      <button class="btn btn-secondary">Secondary</button>
+      <button class="btn btn-success">Success</button>
+      <button class="btn btn-danger">Danger</button>
+      <button class="btn btn-warning">Warning</button>
+      <button class="btn btn-info">Info</button>
+      <button class="btn btn-dark">Dark</button>
+    </div>
+
+    <p class="fw-semibold mb-1">Outline &amp; sizes:</p>
+    <div class="d-flex flex-wrap gap-2 align-items-center">
+      <button class="btn btn-outline-primary">Outline</button>
+      <button class="btn btn-primary btn-lg">Large (.btn-lg)</button>
+      <button class="btn btn-primary btn-sm">Small (.btn-sm)</button>
+      <button class="btn btn-primary" disabled>Disabled</button>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 4. CORE COMPONENTS                                             -->
+  <!-- ============================================================= -->
+  <section id="components" class="mb-5">
+    <h2><span class="section-num">4</span>Components</h2>
+
+    <!-- CARDS -->
+    <h4 class="mt-4">Cards</h4>
+    <p class="text-muted">A flexible content box — the workhorse of Bootstrap layouts.</p>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Card Title</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Subtitle</h6>
+            <p class="card-text">Cards group a title, text, and actions in one tidy box.</p>
+            <a href="#" class="btn btn-primary btn-sm">Action</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 text-bg-dark">
+          <div class="card-body">
+            <h5 class="card-title">Colored Card</h5>
+            <p class="card-text">Use <code>.text-bg-dark</code> to theme the whole card.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-success">
+          <div class="card-header bg-success text-white">Header</div>
+          <div class="card-body">
+            <p class="card-text">Cards can have headers and footers.</p>
+          </div>
+          <div class="card-footer text-muted">Footer</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALERTS & BADGES -->
+    <h4 class="mt-4">Alerts &amp; Badges</h4>
+    <div class="alert alert-success" role="alert">
+      <i class="bi bi-check-circle"></i> Success alert — great for confirmation messages.
+    </div>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      Dismissible warning alert (click the X →).
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <p>
+      Notifications <span class="badge text-bg-danger">4</span>
+      &nbsp; Status <span class="badge rounded-pill text-bg-success">Active</span>
+      &nbsp; <span class="badge text-bg-secondary">New</span>
+    </p>
+
+    <!-- ACCORDION -->
+    <h4 class="mt-4">Accordion</h4>
+    <div class="accordion" id="acc">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#a1">
+            What makes Bootstrap "responsive"?
+          </button>
+        </h2>
+        <div id="a1" class="accordion-collapse collapse show" data-bs-parent="#acc">
+          <div class="accordion-body">The grid + breakpoints rearrange content to fit any screen size.</div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#a2">
+            Do I need to write CSS?
+          </button>
+        </h2>
+        <div id="a2" class="accordion-collapse collapse" data-bs-parent="#acc">
+          <div class="accordion-body">Mostly no — you compose class names. Add custom CSS only for your unique touches.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL -->
+    <h4 class="mt-4">Modal (pop-up dialog)</h4>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#demoModal">
+      Open Modal
+    </button>
+    <div class="modal fade" id="demoModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">A Bootstrap Modal</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            Modals need Bootstrap's <strong>JavaScript</strong> (loaded at the bottom of the page)
+            to open and close. The <code class="chip">data-bs-*</code> attributes wire it up — no code needed.
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-note mt-4">
+      <strong>Two parts to Bootstrap:</strong> the <em>CSS</em> (looks) and the <em>JavaScript bundle</em>
+      (behavior). Static things — grid, buttons, cards — need only the CSS. Interactive things —
+      navbar toggle, modal, accordion, dismissible alerts — need the JS
+      <code class="chip">&lt;script&gt;</code> at the bottom of this file.
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 5. FORMS                                                       -->
+  <!-- ============================================================= -->
+  <section id="forms" class="mb-5">
+    <h2><span class="section-num">5</span>Forms</h2>
+    <p class="text-muted">Add <code class="chip">.form-control</code> to inputs and they look consistent everywhere.</p>
+    <form class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" placeholder="Jay Hunter">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" placeholder="you@vcu.edu">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Favorite framework</label>
+        <select class="form-select">
+          <option>Bootstrap</option>
+          <option>Tailwind</option>
+          <option>Plain CSS</option>
+        </select>
+      </div>
+      <div class="col-12">
+        <label class="form-label">Message</label>
+        <textarea class="form-control" rows="2"></textarea>
+      </div>
+      <div class="col-12">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="agree">
+          <label class="form-check-label" for="agree">I understand the grid is 12 columns</label>
+        </div>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-success">Submit</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 6. UTILITY CLASSES                                             -->
+  <!-- ============================================================= -->
+  <section id="utilities" class="mb-5">
+    <h2><span class="section-num">6</span>Utility Classes</h2>
+    <p class="text-muted">
+      Tiny single-purpose classes you sprinkle anywhere for spacing, color, and layout —
+      the "secret sauce" you'll use constantly.
+    </p>
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <p class="fw-semibold mb-1">Spacing: <code class="chip">m</code>argin / <code class="chip">p</code>adding, 0–5</p>
+        <div class="bg-light border">
+          <div class="bg-primary text-white p-2 mb-2">.p-2 (padding)</div>
+          <div class="bg-primary text-white m-3 p-2">.m-3 (margin) + .p-2</div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <p class="fw-semibold mb-1">Flexbox alignment (<code class="chip">.d-flex</code>)</p>
+        <div class="d-flex justify-content-between align-items-center bg-light border p-2" style="height:90px">
+          <span class="badge text-bg-primary">start</span>
+          <span class="badge text-bg-primary">centered</span>
+          <span class="badge text-bg-primary">end</span>
+        </div>
+        <small class="text-muted">justify-content-between pushes items apart.</small>
+      </div>
+    </div>
+
+    <p class="fw-semibold mb-1 mt-3">Colors, borders &amp; shadows:</p>
+    <div class="d-flex flex-wrap gap-2">
+      <div class="p-3 bg-primary text-white rounded">.bg-primary</div>
+      <div class="p-3 bg-success text-white rounded-pill">.rounded-pill</div>
+      <div class="p-3 border border-3 border-danger rounded">.border-danger</div>
+      <div class="p-3 bg-white shadow rounded">.shadow</div>
+    </div>
+
+    <div class="demo-note mt-3">
+      <strong>Why utilities matter:</strong> instead of writing CSS like
+      <code>margin: 1rem; text-align:center;</code> you just add
+      <code class="chip">m-3 text-center</code> right in the HTML. Faster, and consistent across the whole site.
+    </div>
+  </section>
+
+  <footer class="text-center text-muted border-top pt-4 pb-2">
+    <p class="mb-1">Built for <strong>INFO 202</strong> — Jay Hunter</p>
+    <small>Bootstrap 5.3 &bull; loaded entirely from a CDN — no install required</small>
+  </footer>
+
+</div><!-- /container -->
+
+<!-- (3) BOOTSTRAP JAVASCRIPT BUNDLE — powers the navbar toggle, modal,
+     accordion, and dismissible alerts. Place it just before </body>. -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
