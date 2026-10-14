@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regex Demo</title>
+</head>
+<body>
+    <h2>Regex Validation Example</h2>
+    <form id="signupForm">
+        <label for="phone"></label>
+        <input 
+            type="tel" 
+            id="phone" 
+            name="phone" 
+            placeholder="Enter your phone number" 
+            title="Format: 123-456-7890"
+            required>
+        <button type="submit">Submit</button>
+    </form>
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            const phonePattern = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
+            const phoneInput = document.getElementById('phone').value;
+            if (!phonePattern.test(phoneInput)) {
+                e.preventDefault();
+                alert('Invalid phone number format. Please use the format: 123-456-7890');
+            }
+        });
+    </script>
+</body>
+</html>

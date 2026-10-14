@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disabled vs Readonly</title>
+</head>
+<body>
+    <form id="demoForm">
+        <label>
+            Disabled: 
+            <input type="text" name="disabledField" value="Can't Touch This!" disabled>
+        </label>
+        <br><br>
+        <label>
+            Readonly:
+            <input type="text" name="readonlyField" value="123-456-7890" readonly>
+        </label>
+        <br><br>
+        <label>
+            <input type="hidden" name="inputField" value="Hidden Value">   
+        </label>
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+    <script>
+        document.getElementById('demoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const data = new FormData(this);
+            for (const [key, value] of data.entries()) {
+                console.log(`${key} = ${value}`);
+            }
+        });
+    </script>
+</body>
+</html>
