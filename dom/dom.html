@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Demo - Step by Step</title>
+</head>
+<style>
+    .highlight {
+        background-color: yellow;
+    }   
+</style>
+<body>
+    <h1 id="title">My Task List </h1>
+    <p class="note">Click the buttons to see the DOM in action!</p>
+
+    <form id="taskForm">
+        <input id="taskInput" placeholder="Enter a task" />
+        <button type="submit">Add Task</button>
+    </form>
+    <br> 
+
+    <ul id="taskList">
+        <li>Study Chapter 1</li>
+        <li>Study Chapter 2</li>
+        <li>Study Chapter 3</li>
+    </ul>
+    <br>
+    <button id="toggleButton">Toggle Highlight</button>
+    <script>
+        var title = document.getElementById("title");
+        title.textContent = "Class Task List";
+        title.style.color = "blue";
+
+        var note = document.querySelector(".note");
+        note.innerHTML = "This is <strong>bold</strong> text!";
+
+        document.getElementById("toggleButton").addEventListener("click", function() {
+            title.classList.toggle("highlight");
+        });
+
+        document.querySelectorAll("button").forEach(function(btn){
+            btn.addEventListener("mouseenter", function(){
+                btn.style.backgroundColor = "lightgreen";
+            })
+
+            btn.addEventListener("mouseout", function(){
+                btn.style.backgroundColor = "";
+            })
+        })
+
+        document.getElementById("taskForm").addEventListener("submit", function(e){
+            e.preventDefault();
+            if (document.getElementById("taskInput").value.trim() === "") {
+                alert("Please enter a task.");
+                return;
+            }
+            const li = document.createElement("li");
+            li.textContent = document.getElementById("taskInput").value;
+            document.getElementById("taskList").appendChild(li);
+            document.getElementById("taskInput").value = "";
+        })
+
+        document.getElementById("taskList").addEventListener("click", function(e){
+            if (e.target.tagName === "LI") {
+                e.target.remove();
+            }
+        })
+
+    </script>
+</body>
+</html>
