@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INFO 202 - AJAX Demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+    section { border: 1px solid #ccc; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+    button { padding: .5rem 1rem; margin: .25rem 0; cursor: pointer; }
+    .card { background: #f4f4f4; padding: .75rem; margin: .5rem 0; border-radius: 6px; }
+    .error { color: #b00020; font-weight: bold; }
+    img { max-width: 300px; display: block; margin-top: .5rem; }
+  </style>
+</head>
+<body>
+  <h1>AJAX &amp; APIs Demo</h1>
+
+  <!-- Step 1: proves the page stays interactive while data loads -->
+  <section>
+    <h2>Step 1: The page never reloads</h2>
+    <p>Type here, then click any button below. Your text stays put.</p>
+    <input type="text" placeholder="Type something...">
+    <p>Clicks: <span id="count">0</span> <button onclick="count.textContent++">+1</button></p>
+  </section>
+
+  <section>
+    <h2>Step 2: Old-school AJAX (XMLHttpRequest)</h2>
+    <button onclick="loadWithXHR()">Load user #1 (XHR)</button>
+    <div id="xhr-output"></div>
+  </section>
+
+  <section>
+    <h2>Step 3: Modern Fetch API</h2>
+    <button onclick="loadWithFetch()">Load 5 posts (fetch)</button>
+    <div id="fetch-output"></div>
+  </section>
+
+  <section>
+    <h2>Step 4: async / await</h2>
+    <button onclick="loadDog()">Random dog</button>
+    <div id="dog-output"></div>
+  </section>
+
+  <section>
+    <h2>Step 5: Status codes</h2>
+    <button onclick="loadMissing()">Request post #9999 (404)</button>
+    <div id="status-output"></div>
+  </section>
+
+  <section>
+    <h2>Step 6: CORS</h2>
+    <button onclick="tryCors()">Fetch google.com</button>
+    <div id="cors-output"></div>
+  </section>
+
+  <section>
+    <h2>Step 7: Sending data (POST)</h2>
+    <input id="post-title" type="text" placeholder="Post title">
+    <button onclick="createPost()">Create post</button>
+    <div id="post-output"></div>
+  </section>
+
+  <script>
+    const API = "https://jsonplaceholder.typicode.com";
+
+    function loadWithXHR() {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", `${API}/users/1`);
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          const user = JSON.parse(xhr.responseText);
+          document.getElementById("xhr-output").innerHTML =
+            `<div class="card"><strong>${user.name}</strong><br>${user.email}<br>${user.address.city}</div>`;
+        }
+      };
+      xhr.send();
+    }
+
+    function loadWithFetch() {
+      fetch(`${API}/posts?_limit=5`)
+        .then(response => response.json())
+        .then(posts => {
+          document.getElementById("fetch-output").innerHTML = posts
+            .map(p => `<div class="card"><strong>${p.title}</strong><p>${p.body}</p></div>`)
+            .join("");
+        })
+        .catch(err => console.error(err));
+    }
+
+    async function loadDog() {
+      const out = document.getElementById("dog-output");
+      out.textContent = "Loading...";
+      const response = await fetch("https://dog.ceo/api/breeds/image/random");
+      const data = await response.json();
+      out.innerHTML = `<img src="${data.message}" alt="Random dog">`;
+    }
+
+    // fetch only rejects on network failure — a 404 still "succeeds", so check response.ok
+    async function loadMissing() {
+      const out = document.getElementById("status-output");
+      const response = await fetch(`${API}/posts/9999`);
+      console.log("Status:", response.status, "ok?", response.ok);
+      if (!response.ok) {
+        out.innerHTML = `<p class="error">Error ${response.status}: post not found</p>`;
+        return;
+      }
+      const post = await response.json();
+      out.innerHTML = `<div class="card">${post.title}</div>`;
+    }
+
+    async function tryCors() {
+      const out = document.getElementById("cors-output");
+      try {
+        await fetch("https://www.google.com");
+        out.textContent = "It worked?!";
+      } catch (err) {
+        out.innerHTML = `<p class="error">Blocked: ${err.message}. Open the Console to see the CORS error.</p>`;
+      }
+    }
+
+    async function createPost() {
+      const out = document.getElementById("post-output");
+      const response = await fetch(`${API}/posts`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: document.getElementById("post-title").value, body: "Hello", userId: 1 })
+      });
+      const created = await response.json();
+      out.innerHTML = `<div class="card">Status ${response.status} — server returned:<pre>${JSON.stringify(created, null, 2)}</pre></div>`;
+    }
+  </script>
+</body>
+</html>
